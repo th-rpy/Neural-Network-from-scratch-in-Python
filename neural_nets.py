@@ -10,3 +10,16 @@ class Network (object):
         self.num_layers = len(sizes) # sizes is a list of neurons in each layer
         self.sizes = sizes
         self.biases = [ np.random.randn(y, 1) for y in sizes[1:] ]
+        self.weights = [ np.random.randn(y, x) 
+                            for x, y in zip(sizes[:-1], sizes[1:]) ]
+    
+    # Define the forward steps
+    def forward(self, a):
+
+        # inner product with for loop
+        for b, w in zip(self.biases, self.weights):
+            a = sigmoid(np.dot(w, a) + b)
+
+        return a
+
+    
