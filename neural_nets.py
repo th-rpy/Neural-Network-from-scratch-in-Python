@@ -2,7 +2,14 @@
 import numpy as np
 import random
 
-# Create Network class 
+# Sigmoid and sigmoid prime 
+def sigmoid(x):
+    return 1.0/(1.0 + np.exp(-x))
+
+def sigmoid_prime(x):
+    return sigmoid(x) / (1.0 - sigmoid(x))
+
+# Create Network class
 class Network (object):
 
     def __init__(self, sizes):
@@ -21,5 +28,7 @@ class Network (object):
             a = sigmoid(np.dot(w, a) + b)
 
         return a
-
     
+    
+
+
