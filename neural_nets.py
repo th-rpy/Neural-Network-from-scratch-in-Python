@@ -79,7 +79,14 @@ class Network (object):
             activations.append(activation)
 
         #backward pass
-        
+        delta = self.cost_derivative(activations[-1], y) * sigmoid_prime(zs[-1])
+        n_b[-1] = delta
+        n_w[-1] = np.dot(delta, activations[-2].transpose())
+
+        for l in range(2, self.num_layers):
+            z = zs[-l]
+            sp = sigmoid_prime(z)
+            delta = 
 
 
 
