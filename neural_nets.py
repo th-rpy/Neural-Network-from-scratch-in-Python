@@ -86,8 +86,18 @@ class Network (object):
         for l in range(2, self.num_layers):
             z = zs[-l]
             sp = sigmoid_prime(z)
-            delta = 
+            delta = np.dot(self.weights[-l+1], delta)
+            n_b[-l] = delta
+            n_w[-l] = np.dot(delta, activations[-l-1].transpose())
+        
+        return n_b, n_w
 
+    def evaluate(self, test_data):
+        test_results = [(np.argmax(self.forward(x)), y) for (x, y) in test_data]
+        return sum(int(x==y) for (x, y) in test_results)
+    
+    def cost_derivative(self, out, y):
+        return (out - y)
 
 
 
