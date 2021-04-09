@@ -46,6 +46,42 @@ class Network (object):
             self.update_mini_batch(mini_batch, eta)
 
         if test_data:
-            print('Epoch ')
+            print('Epoch {0} : {1} / {2}'.format(j, self.evaluate(test_data), n_test))
+        else:
+            print('Epoch {0} complete'.format(j))
+
+    def update_mini_batch(self, mini_batch, eta):
+
+        n_b = [np.zeros(b.shape) for b in self.biases]
+        n_w = [np.zeros(w.shape) for w in self.weights]
+
+        for x, y in mini_batch:
+            d_n_b, d_n_w = self.backprop(x, y)
+            n_b = [nb + dnb for nb, dnb in zip(n_b, d_n_b)]
+            n_w = [nw + dnw for nw, dnw in zip(n_w, d_n_w)]
+        
+        self.weights = [w - (eta/len(mini_batch))*nw for w, nw in zip(self.weights,n_w)]
+        self.biases = [b - (eta/len(mini_batch))*nb for b, nb in zip(self.weights,n_b)]
+
+    def backprop(self, x, y):
+
+        n_b = [np.zeros(b.shape) for b in self.biases]
+        n_w = [np.zeros(w.shape) for w in self.weights]
+
+        #feed forward
+        activation = x
+        activations = [x]
+        zs = []
+        for b, w in zip(self.biases, self.weights):
+            z = np.dot(w, activation) + b
+            zs.append(z)
+            activation = sigmoid(z)
+            activations.append(activation)
+
+        #backward pass
+        
+
+
+
 
 
